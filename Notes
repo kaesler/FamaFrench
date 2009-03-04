@@ -1,0 +1,10 @@
+Procedure
+=========
+
+Download daily numbers from Yahoo as .csv.
+
+Convert to "end of month" figures using my Emacs code.
+
+Import into spreadsheet.
+
+
