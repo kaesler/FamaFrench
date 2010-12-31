@@ -1,0 +1,58 @@
+                   Time-stamp: <2010-12-31 14:43:02 esler>
+
+* URLs
+
+Bernstein on the Excel mechanics of the regression
+  http://www.efficientfrontier.com/ef/101/roll101.htm
+
+http://www.ifa.com/pdf/FamaFrenchThreeFactor_Tuck2003.pdf
+
+RobertT's summary of methodology:
+   http://www.bogleheads.org/forum/viewtopic.php?t=7353&highlight=collective
+
+The Dimensions of Stock Returns: 2002 Update:
+  http://www.dfaca.com/library/articles/dimensions_stock_returns_2002/index.shtml
+Dimensions of stock returns 2007:
+  http://www.dfaus.com/2009/05/the-dimensions-of-stock-returns-2007.html
+
+Ken French's data library:
+  http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html
+  
+Estimating portfolio return:
+  http://www.bogleheads.org/forum/viewtopic.php?p=37935#37935
+
+Other people's factor exposure numbers:
+  vinex:
+    http://www.bogleheads.org/forum/viewtopic.php?p=101575#101575
+    http://www.bogleheads.org/forum/viewtopic.php?t=8346
+  vivax:
+    http://www.bogleheads.org/forum/viewtopic.php?p=3356&highlight=#3356
+  ishares:
+    http://www.bogleheads.org/forum/viewtopic.php?p=3034#3034
+
+  IFA article on DFA vs Vanguard:
+    http://www.ifa.com/Media/Images/PDF%20files/DimensionalVs.VanguardAnalysis.pdf
+
+  http://www.bogleheads.org/forum/viewtopic.php?p=37271&highlight=#37271
+  Update to above:
+  http://www.bogleheads.org/forum/viewtopic.php?p=451381&highlight=#451381
+  
+RobertT on how to do non-usa:
+  http://www.bogleheads.org/forum/viewtopic.php?p=96280#96280
+
+Interpreting regression results:
+ http://www.bogleheads.org/forum/viewtopic.php?t=7881
+ http://www.bogleheads.org/forum/viewtopic.php?p=91991&highlight=#91991
+ 
+Parameters to track in spreadsheet:
+  http://www.bogleheads.org/forum/viewtopic.php?p=893894&highlight=&sid=3a78fe283365c8328a49a4cb2b50d482#893894
+* Old Procedure
+=========
+
+Download daily numbers from Yahoo as .csv.
+
+Convert to "end of month" figures using my Emacs code.
+
+Import into spreadsheet.
+
+
