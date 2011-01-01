@@ -1,4 +1,4 @@
-                   Time-stamp: <2010-12-31 14:43:02 esler>
+                   Time-stamp: <2011-01-01 11:14:30 esler>
 
 * URLs
 
@@ -8,6 +8,7 @@ Bernstein on the Excel mechanics of the regression
 http://www.ifa.com/pdf/FamaFrenchThreeFactor_Tuck2003.pdf
 
 RobertT's summary of methodology:
+   http://www.bogleheads.org/forum/viewtopic.php?p=393216&highlight=#393216
    http://www.bogleheads.org/forum/viewtopic.php?t=7353&highlight=collective
 
 The Dimensions of Stock Returns: 2002 Update:
