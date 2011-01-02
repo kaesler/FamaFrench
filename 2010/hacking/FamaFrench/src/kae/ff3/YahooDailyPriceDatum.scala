@@ -1,9 +1,12 @@
 package kae.ff3
+import java.io.File
 
 import java.util.Date
 import java.util.Calendar
 import java.text.SimpleDateFormat
 
+import scala.collection.mutable
+import scala.io.Source
 import scala.util.matching.Regex
 
 class YahooDailyPriceDatum(
@@ -45,5 +48,16 @@ object YahooDailyPriceDatum
 			                 s5.toDouble,
 			                 0,
 			                 s7.toDouble) 
+  }
+  
+  def ingestYahooFile(file: File) : Seq[YahooDailyPriceDatum] = {
+	val result = mutable.Seq[YahooDailyPriceDatum]()
+
+    Source.fromFile(file).getLines() foreach { line =>
+      if (! line.startsWith("Date")) {
+    	result :+ create(line)
+      }
+    }
+	result
   }
 }

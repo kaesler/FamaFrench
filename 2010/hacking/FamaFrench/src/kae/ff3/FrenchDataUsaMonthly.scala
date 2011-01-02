@@ -1,36 +1,97 @@
 package kae.ff3
 
 import scala.collection.mutable
+import scala.collection.immutable.TreeMap
+import scala.io.Source
+
 /**
  * Object to encapsulate Ken French's monthly 3-factor data history.
  */
-object FrenchDataUsaMonthly
+class FrenchDataUsaMonthly(
+  rawData : Seq[Tuple5[String, Double, Double, Double, Double]]
+)
 {
+  private val monthlyReturnsMap = makeMonthlyReturnsMap 
+  validate
+
   def earliestMonth : Month = {
-    // todo
+	monthlyReturnsMap.firstKey
   }
 
   def latestMonth : Month = {
-    // todo
+    monthlyReturnsMap.lastKey
   }
 
   def monthCount : Int = {
-	// todo
+	monthlyReturnsMap.size
   }
 
-  val monthlyReturnsMap = makeMonthlyReturnsMap 
-  
   // Construct the above from the raw data below.
-  private def makeMonthlyReturnsMap : Map[Month, ReturnMetrics] = {
-    var result = mutable.Map[Month, ReturnMetrics]()
+  private def makeMonthlyReturnsMap : TreeMap[Month, ReturnMetrics] = {
+    var result = TreeMap[Month, ReturnMetrics]()
     
-    raw foreach { quintuple =>
+    rawData foreach { quintuple =>
       val (monthString, marketMinusRiskFree, smallMinusBig, highMinusLow, riskFree) = quintuple
       result += (new Month(monthString)
                  ->
                  new ReturnMetrics(marketMinusRiskFree, smallMinusBig, highMinusLow, riskFree))
     }
-    result.toMap
+    result
+  }
+
+  private def validate = {
+	// Make sure there are no gaps. I.e. the successor of all the keys except
+	// the last one must be contained in the key set.
+	val last = latestMonth
+	monthlyReturnsMap.keys foreach { month =>
+	  if (month != last) {
+	    require(monthlyReturnsMap.contains(month.successor))
+	  }
+	}
+  }
+}
+
+object FrenchDataUsaMonthly
+{
+  def create : FrenchDataUsaMonthly = {
+    new FrenchDataUsaMonthly(raw)
+  }
+
+  def createFromFile : FrenchDataUsaMonthly = {
+    val file = FileLocater.locateUsaResearchMonthlyDataFile
+    require(file.exists)
+    
+    // This file was created by CMPT_ME_BEME_RETS using the 201011 CRSP database.
+    // The 1-month TBill return is from Ibbotson and Associates, Inc.
+    //
+    //        Mkt-RF     SMB     HML      RF
+    //192607    2.62   -2.16   -2.92    0.22
+    
+   	val lineRegexp = """([0-9][0-9][0-9][0-9][0-9][0-9]) +([~ ]+) +([~ ]+) +([~ ]+) +([~ ]+)""".r
+
+   	val rawSeq = (Source.fromFile(file).getLines()
+     // Drop the leading few lines that are not monthly data lines
+     dropWhile { line =>
+       lineRegexp findFirstIn line match {
+    	  case Some(s) => false
+    	  case None => true
+       }
+     }
+     // Retain the monthly data lines
+     takeWhile { line =>
+      lineRegexp findFirstIn line match {
+    	  case Some(s) => true
+    	  case None => false
+      }
+     }
+     // Foreach monthly data line
+     map { monthlyDataLine =>
+       val lineRegexp(s1, s2, s3, s4, s5) = monthlyDataLine
+       (s1, s2.toDouble, s3.toDouble, s4.toDouble, s5.toDouble)
+    
+     }).toSeq
+
+    new FrenchDataUsaMonthly(rawSeq)
   }
 
   // TODO: Instead of inlining it here as Scala code,
@@ -1050,7 +1111,5 @@ object FrenchDataUsaMonthly
     ("201009", 9.24, 3.97, -3.14, 0.01),
     ("201010", 3.89, 0.91, -2.14, 0.01),
     ("201011", 0.58, 3.71, -0.64, 0.01)
-		  
   )
-
 }
