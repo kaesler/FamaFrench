@@ -1,4 +1,6 @@
-package kae.ff3
+package kae.ff3
+import scala.io.Source
+import java.util.Date;import java.util.Calendar;import java.text.SimpleDateFormat
 import scala.collection.immutable.TreeMap
 
 /**
@@ -30,7 +32,7 @@ object MutualFundMonthlyReturnHistory
 {
   def create(
     ticker: String,
-    yahooData: Seq[YahooDailyPriceDatum]
+    yahooData: Seq[YahooPriceDatum]
   ) : MutualFundMonthlyReturnHistory = {
     val map = new TreeMap[Month, Double]()
 
@@ -42,5 +44,34 @@ object MutualFundMonthlyReturnHistory
 	  
 
     new MutualFundMonthlyReturnHistory(ticker, map)
+  }
+  
+  def createFromFile(ticker: String) = {
+	  
+    val file = FileLocater.locateFundDataFile(ticker)
+    require(file.exists)
+    
+    // E.g:
+    //  "Date,Open,High,Low,Close,Volume,Adj Close"
+    //  "2010-12-31,16.63,16.63,16.63,16.63,000,16.63"
+
+    // Seven non-empty string values separated by commas.
+	val lineRegexp = """([0-9][0-9][0-9][0-9]-[0-9]+-[0-9]+),([^,]+),([^,]+),([^,]+),([^,]+),([^,]+),([^,]+)""".r;		def isDataLine(line: String) : Boolean = {      lineRegexp findFirstIn line match {        case Some(s) => true    	case None => false       }    }
+
+   	val rawSeq = (Source.fromFile(file).getLines()
+     // Drop the leading lines that are not monthly data lines
+     dropWhile { line => ! isDataLine(line) }
+
+     // Retain the daily data lines
+     takeWhile { line => isDataLine(line) }
+     // For each daily data line
+     map { dailyDataLine =>
+       val lineRegexp(s1, s2, s3, s4, s5, s6, s7) = dailyDataLine       // Pull out: date and adjusted close
+       (new SimpleDateFormat("yyyy-mm-dd").parse(s1), s7.toDouble)
+    
+     }).toSeq
+
+    
+	  
   }
 }
