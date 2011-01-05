@@ -9,6 +9,10 @@ import scala.collection.mutable
 import scala.io.Source
 import scala.util.matching.Regex
 
+/**
+ * Class to represent a daily price datum from Yahoo.
+ * We're really only interested in adjustedClose for now.
+ */
 class YahooPriceDatum(
   date: Date,
   open: Double,
@@ -22,12 +26,7 @@ class YahooPriceDatum(
   val calendar = Calendar.getInstance()
   calendar.setTime(date)
 
-  /**
-   * Return the month for this datum
-   */
-  def month : Month = {
-    new Month(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH))
-  }
+  val month = new Month(calendar)
 }
 
 object YahooPriceDatum
@@ -59,5 +58,25 @@ object YahooPriceDatum
 			            s5.toDouble,
 			            s6.toInt,
 			            s7.toDouble) 
+  }
+  
+  /**
+   * Parse data file into sequence of daily price data.
+   * @param ticker
+   * @return
+   */
+  def parseFile(ticker: String) : Seq[YahooPriceDatum] = {
+    val file = FileLocater.locateFundDataFile(ticker)
+    require(file.exists)
+    
+   	(Source.fromFile(file).getLines()
+     // Drop the leading few lines that are not monthly data lines
+     dropWhile { line => !matches(line) }
+
+     // Retain the monthly data lines
+     takeWhile { line => matches(line) }
+
+     // Foreach monthly data line create a datum
+     map { dataLine => create(dataLine) }).toSeq
   }
 }

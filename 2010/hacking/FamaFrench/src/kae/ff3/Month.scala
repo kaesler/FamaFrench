@@ -1,4 +1,5 @@
 package kae.ff3
+import java.util.Calendar
 
 /**
  * Class to represent a particular calendar month in a particular year.
@@ -12,13 +13,20 @@ class Month(val year: Int, val mm: Int)
   require(mm <= 12)
 
   /**
-   * Construct from string of the form "YYYYMM"
+   * Construct from string of the form "YYYYMM".
    */
   def this(str: String) = {
    //require(str.length == 6)
    this(str.substring(0, 4).toInt, str.substring(4, 6).toInt)
   }
 
+  /**
+   * Construct from a Java Calendar instance.
+   */
+  def this(calendar: Calendar) = {
+    this(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH + 1))
+  }
+  
   override def equals(other: Any) : Boolean = other match {
   case that: Month =>
     this.year.equals(that.year) && this.mm.equals(that.mm)

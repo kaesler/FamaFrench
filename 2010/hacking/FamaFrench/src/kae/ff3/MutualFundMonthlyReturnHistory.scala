@@ -4,74 +4,31 @@ import java.util.Date;import java.util.Calendar;import java.text.SimpleDateFor
 import scala.collection.immutable.TreeMap
 
 /**
- * Class to encapsulate the monthly total return history for a mutual fund or ETF.
+ * Class to encapsulate the monthly total return history for a mutual fund or ETF. * We construct it from raw Yahoo daily data. * Internal code processes that into more suitable form.
  */
 class MutualFundMonthlyReturnHistory(
   val ticker: String,
-  val returns: TreeMap[Month, Double]
+  yahooData: Seq[YahooPriceDatum]
 )
-{
-  def validate = {
+{  private def computeMonthlyTotalReturns : TreeMap[Month, Double] = {	// todo: why are semi-colons necessary here?????	var result = TreeMap[Month, Double]();	// TODO	//  - sort the Yahoo data in ascending data	//  - validate in any way we can	//  - need to discard the first month	//  - compute monthly returns from daily data	 	val a = (yahooData      // Group by month (Map[Month, Seq[YahooPriceDatum]	  groupBy { datum => datum.month });		val b = a.values;	// Keep the latest datum in each month	val c = b.map { datums =>	  datums reduceLeft { (d1, d2) =>	    if (d1.calendar.getTimeInMillis > d2.calendar.getTimeInMillis) d1 else d2 }};	// Sort by ascending month    val d = c.toSeq sortWith { (d1, d2) => d1.month < d2.month };        // @ todo compute return (as a percentage) for 2nd and subsequent months        d foreach { datum =>       result += (datum.month -> datum.adjustedClose); };	result  };  private def computeMonthlyRiskFreeRelativeTotalReturns : TreeMap[Month, Double] = {	      // todo: remove	new TreeMap[Month, Double]()  };  private val monthlyTotalReturns = computeMonthlyTotalReturns;      private def validateYahooData = {
     // todo: check no gaps etc
   }
   
   def earliestMonth : Month = {
-	returns.firstKey
+	monthlyTotalReturns.firstKey
   }
 
   def latestMonth : Month = {
-	returns.lastKey
+	monthlyTotalReturns.lastKey
   }
   
   def monthCount : Int = {
-	returns.size
+	monthlyTotalReturns.size
   }
 }
 
 object MutualFundMonthlyReturnHistory
 {
-  def create(
-    ticker: String,
-    yahooData: Seq[YahooPriceDatum]
-  ) : MutualFundMonthlyReturnHistory = {
-    val map = new TreeMap[Month, Double]()
-
-    // todo
-	//  - sort the data in ascending data
-	//  - validate in any way we can
-	//  - need to discard the first month
-	//  - compute monthly returns from daily data
-	  
-
-    new MutualFundMonthlyReturnHistory(ticker, map)
-  }
-  
-  def createFromFile(ticker: String) = {
-	  
-    val file = FileLocater.locateFundDataFile(ticker)
-    require(file.exists)
-    
-    // E.g:
-    //  "Date,Open,High,Low,Close,Volume,Adj Close"
-    //  "2010-12-31,16.63,16.63,16.63,16.63,000,16.63"
-
-    // Seven non-empty string values separated by commas.
-	val lineRegexp = """([0-9][0-9][0-9][0-9]-[0-9]+-[0-9]+),([^,]+),([^,]+),([^,]+),([^,]+),([^,]+),([^,]+)""".r;		def isDataLine(line: String) : Boolean = {      lineRegexp findFirstIn line match {        case Some(s) => true    	case None => false       }    }
-
-   	val rawSeq = (Source.fromFile(file).getLines()
-     // Drop the leading lines that are not monthly data lines
-     dropWhile { line => ! isDataLine(line) }
-
-     // Retain the daily data lines
-     takeWhile { line => isDataLine(line) }
-     // For each daily data line
-     map { dailyDataLine =>
-       val lineRegexp(s1, s2, s3, s4, s5, s6, s7) = dailyDataLine       // Pull out: date and adjusted close
-       (new SimpleDateFormat("yyyy-mm-dd").parse(s1), s7.toDouble)
-    
-     }).toSeq
-
-    
-	  
-  }
+  def createFromFile(ticker: String) : MutualFundMonthlyReturnHistory  = {
+    new MutualFundMonthlyReturnHistory(ticker, YahooPriceDatum.parseFile(ticker))  }
 }
