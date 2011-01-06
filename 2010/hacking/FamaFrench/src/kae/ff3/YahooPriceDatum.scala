@@ -21,12 +21,17 @@ class YahooPriceDatum(
   close: Double,
   volume: Int,
   val adjustedClose: Double
-)
+) extends Ordered[YahooPriceDatum]
 {
   val calendar = Calendar.getInstance()
   calendar.setTime(date)
 
   val month = new Month(calendar)
+  
+  // Assign natural order by date.
+  def compare(that: YahooPriceDatum): Int = {
+    calendar.compareTo(that.calendar)
+  }
 }
 
 object YahooPriceDatum
@@ -51,7 +56,7 @@ object YahooPriceDatum
   def create(csvLine: String) : YahooPriceDatum = {
 	
 	val lineRegexp(s1, s2, s3, s4, s5, s6, s7) = csvLine
-	new YahooPriceDatum(new SimpleDateFormat("yyyy--mm-dd").parse(s1),
+	new YahooPriceDatum(new SimpleDateFormat("yyyy-mm-dd").parse(s1),
 			            s2.toDouble,
 			            s3.toDouble,
 			            s4.toDouble,

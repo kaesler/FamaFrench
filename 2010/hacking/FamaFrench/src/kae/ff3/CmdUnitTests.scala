@@ -11,12 +11,14 @@ object CmdUnitTests {
     FamaFrenchUsaMonthlyDatum.parseFile
     
     // FamaFrenchDigestUsaMonthly
-    val digest = FamaFrenchDigestUsaMonthly.createFromFile
-    println(digest.earliestMonth)
-    println(digest.latestMonth)
+    println(FamaFrenchDigestUsaMonthly.earliestMonth)
+    println(FamaFrenchDigestUsaMonthly.latestMonth)
     
     // MutualFundMonthlyReturnHistory
+    MutualFundMonthlyReturnHistory.createFromFile("dffvx")
+    MutualFundMonthlyReturnHistory.createFromFile("dfisx")
+    MutualFundMonthlyReturnHistory.createFromFile("dfivx")
     MutualFundMonthlyReturnHistory.createFromFile("dfvex")
-
+    MutualFundMonthlyReturnHistory.createFromFile("dfvqx")
   }
 }

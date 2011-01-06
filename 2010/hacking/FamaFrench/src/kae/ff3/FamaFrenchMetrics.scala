@@ -9,5 +9,5 @@ class FamaFrenchMetrics (
   val highMinusLow: Double,
   val riskFree: Double
 ){
-
+  // TODO: hashCode and equals
 }

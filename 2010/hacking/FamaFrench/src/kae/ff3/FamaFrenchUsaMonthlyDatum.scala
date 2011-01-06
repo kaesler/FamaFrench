@@ -4,8 +4,14 @@ package kae.ff3
 class FamaFrenchUsaMonthlyDatum(
   val month: Month,
   val metrics: FamaFrenchMetrics
-)
+) extends Ordered[FamaFrenchUsaMonthlyDatum]
 {
+	  // TODO: hashCode and equals
+
+  // Order by date
+  def compare(that: FamaFrenchUsaMonthlyDatum) : Int = {
+    month.compare(that.month)
+  }
 }
 
 object FamaFrenchUsaMonthlyDatum

@@ -7,27 +7,12 @@ import scala.io.Source
 /**
  * Object to encapsulate Ken French's monthly 3-factor data history.
  */
-class FamaFrenchDigestUsaMonthly(
-  rawData : Seq[FamaFrenchUsaMonthlyDatum]
-)
+object FamaFrenchDigestUsaMonthly
 {
-  private val monthlyReturnsMap = makeMonthlyReturnsMap 
-  validate
-
-  def earliestMonth : Month = {
-	monthlyReturnsMap.firstKey
-  }
-
-  def latestMonth : Month = {
-    monthlyReturnsMap.lastKey
-  }
-
-  def monthCount : Int = {
-	monthlyReturnsMap.size
-  }
+  private val rawData = FamaFrenchUsaMonthlyDatum.parseFile
 
   // Construct the above from the raw data below.
-  private def makeMonthlyReturnsMap : TreeMap[Month, FamaFrenchMetrics] = {
+  private def makeMetricsMap : TreeMap[Month, FamaFrenchMetrics] = {
     var result = TreeMap[Month, FamaFrenchMetrics]()
     
     rawData foreach { datum =>
@@ -35,22 +20,30 @@ class FamaFrenchDigestUsaMonthly(
     }
     result
   }
+  private val metricsMap = makeMetricsMap 
 
   private def validate = {
 	// Make sure there are no gaps. I.e. the successor of all the keys except
 	// the last one must be contained in the key set.
 	val last = latestMonth
-	monthlyReturnsMap.keys foreach { month =>
+	metricsMap.keys foreach { month =>
 	  if (month != last) {
-	    require(monthlyReturnsMap.contains(month.successor))
+	    require(metricsMap.contains(month.successor))
 	  }
 	}
   }
-}
 
-object FamaFrenchDigestUsaMonthly
-{
-  def createFromFile : FamaFrenchDigestUsaMonthly = {
-    new FamaFrenchDigestUsaMonthly(FamaFrenchUsaMonthlyDatum.parseFile)
+  def getMetrics (month: Month) : FamaFrenchMetrics = metricsMap(month)
+
+  def earliestMonth : Month = {
+	metricsMap.firstKey
+  }
+
+  def latestMonth : Month = {
+    metricsMap.lastKey
+  }
+
+  def monthCount : Int = {
+	metricsMap.size
   }
 }
