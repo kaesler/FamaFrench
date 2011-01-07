@@ -23,6 +23,8 @@ class YahooPriceDatum(
   val adjustedClose: Double
 ) extends Ordered[YahooPriceDatum]
 {
+	  // TODO: hashCode and equals
+
   val calendar = Calendar.getInstance()
   calendar.setTime(date)
 
