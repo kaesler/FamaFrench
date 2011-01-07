@@ -7,10 +7,11 @@ package kae.ff3
 class Month(val year: Int, val mm: Int)
   extends Ordered[Month]
 {
-  require(year > 1925)
-  require(year < 2011)
-  require(mm >= 1)
-  require(mm <= 12)
+  private val validYearRange = 1925 to 2010
+  private val validMonthRange = 1 to 12
+  
+  require(validYearRange.contains(year))
+  require(validMonthRange.contains(mm))
 
   /**
    * Construct from string of the form "YYYYMM".
@@ -24,21 +25,18 @@ class Month(val year: Int, val mm: Int)
    * Construct from a Java Calendar instance.
    */
   def this(calendar: Calendar) = {
-    this(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH + 1))
+    this(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
   }
   
   override def equals(other: Any) : Boolean = other match {
-  case that: Month =>
-    this.year.equals(that.year) && this.mm.equals(that.mm)
+    case that: Month =>
+      this.year == that.year && this.mm == that.mm
 
     case _ =>
       false
   }
   
-  override def hashCode : Int = 
-  41 * (
-	41 + year
-  ) + mm
+  override def hashCode : Int = (41 * (41 + year)) + mm
 
   def compare(that: Month) : Int = {
     if (this.year.equals(that.year)) {

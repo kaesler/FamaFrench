@@ -14,7 +14,7 @@ import scala.util.matching.Regex
  * We're really only interested in adjustedClose for now.
  */
 class YahooPriceDatum(
-  date: Date,
+  val date: Date,
   open: Double,
   high: Double,
   low: Double,
@@ -34,6 +34,8 @@ class YahooPriceDatum(
   def compare(that: YahooPriceDatum): Int = {
     calendar.compareTo(that.calendar)
   }
+  
+  override def toString = calendar.toString
 }
 
 object YahooPriceDatum
@@ -55,16 +57,17 @@ object YahooPriceDatum
    * Construct from a line in a CSV file downloaded from Yahoo.
    * e.g. 
    */
-  def create(csvLine: String) : YahooPriceDatum = {
-	
-	val lineRegexp(s1, s2, s3, s4, s5, s6, s7) = csvLine
-	new YahooPriceDatum(new SimpleDateFormat("yyyy-mm-dd").parse(s1),
+  def create(line: String) : YahooPriceDatum = {
+	val lineRegexp(s1, s2, s3, s4, s5, s6, s7) = line
+	val result = new YahooPriceDatum(new SimpleDateFormat("yyyy-MM-dd").parse(s1),
 			            s2.toDouble,
 			            s3.toDouble,
 			            s4.toDouble,
 			            s5.toDouble,
 			            s6.toInt,
 			            s7.toDouble) 
+	println("%s ==> %s".format(s1, result.calendar.get(Calendar.MONTH)))
+	result
   }
   
   /**
@@ -77,13 +80,13 @@ object YahooPriceDatum
     require(file.exists)
     
    	(Source.fromFile(file).getLines()
-     // Drop the leading few lines that are not monthly data lines
+     // Drop the leading few lines that are not data lines
      dropWhile { line => !matches(line) }
 
-     // Retain the monthly data lines
+     // Retain the data lines
      takeWhile { line => matches(line) }
 
-     // Foreach monthly data line create a datum
+     // Foreach data line create a datum
      map { dataLine => create(dataLine) }).toSeq
   }
 }

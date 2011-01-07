@@ -9,6 +9,10 @@ class MutualFundMonthlyReturnHistory(
   val ticker: String,
   yahooData: Seq[YahooPriceDatum])
 { 
+  // Record number of days and months in original data for sanity checking.
+  val yahooDayCount = yahooData.size
+  val yahooMonthCount = ((yahooData map { datum => datum.month } toSeq).distinct).size
+
   // Store intermediate computations for sanity checking
   private var adjustedCloses = TreeMap[Month, Double]()
   
@@ -19,31 +23,38 @@ class MutualFundMonthlyReturnHistory(
 	val monthlyData = (
 	  // Group by month (Map[Month, Seq[YahooPriceDatum]	 
 	  (yahooData.groupBy { datum => datum.month } values)
-	    
 	  // Keep the latest datum in each month	
 	  map { datums =>	 
 	    datums reduceLeft { (d1, d2) =>	    
 	      if (d1.calendar.getTimeInMillis > d2.calendar.getTimeInMillis) d1 else d2 }} toSeq)
-	       
+
+	require(monthlyData.size == yahooMonthCount)
+	      
 	// Sort by ascending month
 	val sortedMonthlyData = monthlyData sortWith { (d1, d2) => d1.month < d2.month }
 	
-	// Store in yahooMonthlyPriceMap for sanity checking.
+	require(sortedMonthlyData.size == yahooMonthCount)
+	
+	// Store in adjustedCloses for sanity checking.
 	sortedMonthlyData foreach { datum =>
 	  adjustedCloses += (datum.month -> datum.adjustedClose)
 	}
 	
+	require(adjustedCloses.size == yahooMonthCount)
+
 	// Compute return (as a percentage) for 2nd and subsequent months        
-    val x = sortedMonthlyData.sliding(2) foreach { s =>
-	   val firstDatum = s.head
-	   val secondDatum = s.last
-	   result += (secondDatum.month
-	  		      ->
-	              (100.0
-	               *
-	               ((secondDatum.adjustedClose - firstDatum.adjustedClose))/firstDatum.adjustedClose))
-    }
-	    
+    sortedMonthlyData.sliding(2) foreach { s =>
+	  val firstDatum = s.head
+	  val secondDatum = s.last
+	  result += (secondDatum.month
+	             ->
+                 (100.0
+	              *
+	              ((secondDatum.adjustedClose - firstDatum.adjustedClose))/firstDatum.adjustedClose))
+      }
+
+	require(result.size == (yahooMonthCount - 1))
+
 	result 
   }
   private val totalReturns = computeTotalReturns;      
