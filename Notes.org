@@ -1,4 +1,4 @@
-                   Time-stamp: <2011-01-01 11:14:30 esler>
+                   Time-stamp: <2011-01-07 22:08:16 kaesler>
 
 * URLs
 
@@ -47,6 +47,9 @@ Interpreting regression results:
  
 Parameters to track in spreadsheet:
   http://www.bogleheads.org/forum/viewtopic.php?p=893894&highlight=&sid=3a78fe283365c8328a49a4cb2b50d482#893894
+
+Yahoo api
+  http://www.gummy-stuff.org/Yahoo-data.htm
 * Old Procedure
 =========
 
