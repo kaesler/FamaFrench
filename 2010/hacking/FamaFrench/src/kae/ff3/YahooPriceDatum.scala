@@ -66,7 +66,7 @@ object YahooPriceDatum
 			            s5.toDouble,
 			            s6.toInt,
 			            s7.toDouble) 
-	println("%s ==> %s".format(s1, result.calendar.get(Calendar.MONTH)))
+	//println("%s ==> %s".format(s1, result.calendar.get(Calendar.MONTH)))
 	result
   }
   

@@ -7,7 +7,7 @@ package kae.ff3
 class Month(val year: Int, val mm: Int)
   extends Ordered[Month]
 {
-  private val validYearRange = 1925 to 2010
+  private val validYearRange = 1925 to 2011
   private val validMonthRange = 1 to 12
   
   require(validYearRange.contains(year))

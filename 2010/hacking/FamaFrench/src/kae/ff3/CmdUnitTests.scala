@@ -15,22 +15,10 @@ object CmdUnitTests {
     require(FileLocater.locateProjectRoot.isDirectory)
 	  
     // FamaFrenchUsaMonthlyDatum
-    FamaFrenchUsaMonthlyDatum.parseFile
+    FamaFrenchDatumUsa.parseFile
     
     // FamaFrenchDigestUsaMonthly
-    println(FamaFrenchDigestUsaMonthly.earliestMonth)
-    println(FamaFrenchDigestUsaMonthly.latestMonth)
-    
-    // MutualFundMonthlyReturnHistory
-//    MutualFundMonthlyReturnHistory.createFromFile("dffvx")
-//    MutualFundMonthlyReturnHistory.createFromFile("dfisx")
-//    MutualFundMonthlyReturnHistory.createFromFile("dfivx")
-//    MutualFundMonthlyReturnHistory.createFromFile("dfvqx")
+    println(FamaFrenchDigestUsa.months)
 
-    val dfvexHistory = MutualFundMonthlyReturnHistory.createFromFile("dfvex")
-    dfvexHistory.generateRegressionSpreadsheet
-
-    val dffvxHistory = MutualFundMonthlyReturnHistory.createFromFile("dffvx")
-    dffvxHistory.generateRegressionSpreadsheet
-}
+  }
 }

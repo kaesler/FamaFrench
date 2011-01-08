@@ -1,20 +1,20 @@
 package kae.ff3
 import scala.io.Source
 
-class FamaFrenchUsaMonthlyDatum(
+class FamaFrenchDatumUsa(
   val month: Month,
   val metrics: FamaFrenchMetrics
-) extends Ordered[FamaFrenchUsaMonthlyDatum]
+) extends Ordered[FamaFrenchDatumUsa]
 {
-	  // TODO: hashCode and equals
+  // TODO: hashCode and equals
 
   // Order by date
-  def compare(that: FamaFrenchUsaMonthlyDatum) : Int = {
+  def compare(that: FamaFrenchDatumUsa) : Int = {
     month.compare(that.month)
   }
 }
 
-object FamaFrenchUsaMonthlyDatum
+object FamaFrenchDatumUsa
 {
   // This file was created by CMPT_ME_BEME_RETS using the 201011 CRSP database.
   // The 1-month TBill return is from Ibbotson and Associates, Inc.
@@ -30,16 +30,16 @@ object FamaFrenchUsaMonthlyDatum
     }
   }
   
-  def create(line: String) : FamaFrenchUsaMonthlyDatum = {
+  def create(line: String) : FamaFrenchDatumUsa = {
     val lineRegexp(s1, s2, s3, s4, s5) = line
-    new FamaFrenchUsaMonthlyDatum(new Month(s1),
-    		                      new FamaFrenchMetrics(s2.toDouble,
-    		                                            s3.toDouble,
-    		                                            s4.toDouble,	
-    		                                            s5.toDouble))
+    new FamaFrenchDatumUsa(new Month(s1),
+    		               new FamaFrenchMetrics(s2.toDouble,
+    		            		                 s3.toDouble,
+    		            		                 s4.toDouble,	
+    		            		                 s5.toDouble))
   }
   
-  def parseFile : Seq[FamaFrenchUsaMonthlyDatum] = {
+  def parseFile : Seq[FamaFrenchDatumUsa] = {
     val file = FileLocater.locateUsaResearchMonthlyDataFile
     require(file.exists)
     
