@@ -1,4 +1,4 @@
-                   Time-stamp: <2011-01-07 22:08:16 kaesler>
+                   Time-stamp: <2011-01-08 17:52:06 esler>
 
 * URLs
 
@@ -41,6 +41,16 @@ Other people's factor exposure numbers:
 RobertT on how to do non-usa:
   http://www.bogleheads.org/forum/viewtopic.php?p=96280#96280
 
+MSCI Indices for international SmB
+  http://www.mscibarra.com/products/indices/
+
+  Market: Developed Markets/World Ex Usa
+  Currency: USD
+  Index level: Gross
+  Size: Large+Mid, Small + + Micro
+  Style: None
+  Frequency: Monthly
+  
 Interpreting regression results:
  http://www.bogleheads.org/forum/viewtopic.php?t=7881
  http://www.bogleheads.org/forum/viewtopic.php?p=91991&highlight=#91991
