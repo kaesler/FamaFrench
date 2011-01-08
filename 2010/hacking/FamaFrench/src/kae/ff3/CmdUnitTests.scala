@@ -29,5 +29,8 @@ object CmdUnitTests {
 
     val dfvexHistory = MutualFundMonthlyReturnHistory.createFromFile("dfvex")
     dfvexHistory.generateRegressionSpreadsheet
- }
+
+    val dffvxHistory = MutualFundMonthlyReturnHistory.createFromFile("dffvx")
+    dffvxHistory.generateRegressionSpreadsheet
+}
 }

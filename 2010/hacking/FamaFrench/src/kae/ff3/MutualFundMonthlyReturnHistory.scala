@@ -61,9 +61,13 @@ class MutualFundMonthlyReturnHistory(
 	
   private def computeRiskAdjustedTotalReturns : TreeMap[Month, Double] = {	      
 	var result = TreeMap[Month, Double]()
+	val ffMonths = FamaFrenchDigestUsaMonthly.months
+	
 	totalReturns foreach { elt  =>
 	  val (month, totalReturn) = elt
-	  result += (month -> (totalReturn - FamaFrenchDigestUsaMonthly.getMetrics(month).riskFree))
+	  if (ffMonths.contains(month)) {
+	    result += (month -> (totalReturn - FamaFrenchDigestUsaMonthly.getMetrics(month).riskFree))
+	  }
 	}
 	
 	result
@@ -91,21 +95,20 @@ class MutualFundMonthlyReturnHistory(
     		      "SmB",
     		      "HmL",
                   "RF"));
+    var ffMonths = FamaFrenchDigestUsaMonthly.months
     riskAdjustedTotalReturns foreach { pair =>
       val (month, riskAdjustedReturn) = pair
       val ffMetrics = FamaFrenchDigestUsaMonthly.getMetrics(month)
       result.append("%s,%s,%7.4f,%7.4f,%s,%s,%s,%s,%s\n".format(
-    		        month.toString,
-    		        adjustedCloses(month),
-    		        totalReturns(month),
-    		        riskAdjustedTotalReturns(month),
+  		            month.toString,
+  		            adjustedCloses(month),
+   		            totalReturns(month),
+   		            riskAdjustedTotalReturns(month),
     		        "",
     		        ffMetrics.marketMinusRiskFree,
     		        ffMetrics.smallMinusBig,
     		        ffMetrics.highMinusLow,
-    		        ffMetrics.riskFree
-    		        
-      ));
+    		        ffMetrics.riskFree))
     }
     result.toString
   }
@@ -119,6 +122,7 @@ class MutualFundMonthlyReturnHistory(
   def generateRegressionSpreadsheet = {
     val contents = generateSpreadSheetContents
     print(contents)
+    fillFile(FileLocater.locateFundSpreadsheetFile(ticker), contents)
   }
 
   def earliestMonth : Month = {

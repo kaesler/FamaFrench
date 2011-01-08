@@ -39,6 +39,8 @@ object FamaFrenchDigestUsaMonthly
 	metricsMap.firstKey
   }
 
+  def months  = metricsMap.keySet
+
   def latestMonth : Month = {
     metricsMap.lastKey
   }
