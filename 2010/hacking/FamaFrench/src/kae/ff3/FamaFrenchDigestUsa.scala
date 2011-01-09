@@ -9,18 +9,7 @@ import scala.io.Source
  */
 object FamaFrenchDigestUsa extends FamaFrenchDigest
 {
-  private val rawData = FamaFrenchDatumUsa.parseFile
-
-  // Construct the above from the raw data below.
-  private def makeMetricsMap : TreeMap[Month, FamaFrenchMetrics] = {
-    var result = TreeMap[Month, FamaFrenchMetrics]()
-    
-    rawData foreach { datum =>
-      result += (datum.month -> datum.metrics)
-    }
-    result
-  }
-  private val metricsMap = makeMetricsMap 
+  private val metricsMap = FamaFrenchMetricsUsa.parseFile
 
   private def validate = {
 	// Make sure there are no gaps. I.e. the successor of all the keys except
@@ -36,4 +25,8 @@ object FamaFrenchDigestUsa extends FamaFrenchDigest
   def getMetrics (month: Month) : FamaFrenchMetrics = metricsMap(month)
 
   def months  = metricsMap.keySet
+  
+  def riskFreeReturns : Map[Month, Double] = {
+    metricsMap mapValues { metrics => metrics.riskFree }
+  }
 }

@@ -1,4 +1,4 @@
-                   Time-stamp: <2011-01-08 17:52:06 esler>
+                   Time-stamp: <2011-01-09 10:21:10 kaesler>
 
 * URLs
 
@@ -60,6 +60,32 @@ Parameters to track in spreadsheet:
 
 Yahoo api
   http://www.gummy-stuff.org/Yahoo-data.htm
+
+
+Ken French international data:
+
+We form value and growth portfolios in each country using four
+valuation ratios: book-to-market (B/M); earnings-price (E/P); cash
+earnings to price (CE/P); and dividend yield (D/P). We form the
+portfolios at the end of December each year by sorting on one of the
+four ratios and then compute value-weighted returns for the following
+12 months. The value portfolios (High) contain firms in the top 30% of
+a ratio and the growth portfolios (Low) contain firms in the bottom
+30%. There are two sets of portfolios. In one, firms are included only
+if we have data on all four ratios. In the other, a firm is included
+in a sort variable's portfolios if we have data for that variable. The
+market return (Mkt) for the first set is the value weighted average of
+the returns for only firms with all four ratios. The market return for
+the second set includes all firms with book-to-market data, and Firms
+is the number of firms with B/M data.
+
+Here is the data we want: (first 4 columns)
+     Value-Weight Dollar Returns      All 4 Data Items Required
+                -- BE/ME --   --- E/P ---   --- CE/P --   ------  Yld  -----
+          Mkt   High    Low   High    Low   High    Low   High    Low   Zero
+197501  17.39  16.03  17.63  17.12  17.46  16.48  18.42  15.00  18.24   6.73
+197502  13.59  15.63  12.56  15.92  11.77  15.20  12.67  14.53  12.74   6.28
+
 * Old Procedure
 =========
 

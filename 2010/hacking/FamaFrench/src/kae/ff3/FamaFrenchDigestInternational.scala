@@ -3,22 +3,41 @@ package kae.ff3
 
 object FamaFrenchDigestInternational extends FamaFrenchDigest
 {
-  // TODO: we must combine 3 data sources
+  // We must combine 3 data sources
   //  1. Ken French's international data
-  //  3. Ken French's USA data (for risk free data)
-  //  4. 
-  private val rawInternationalData = FamaFrenchDatumInternational.parseFile
-  private val rawUsaData = FamaFrenchDatumUsa.parseFile
+  //  3. Risk free return numbers from Ken French's USA research data
+  //  4. Data I assemble for International SmB
+	
+  private val internationalMetrics = FamaFrenchMetricsInternational.parseFile
+  private val riskFreeReturns = FamaFrenchDigestUsa.riskFreeReturns
+  private val smallMinusBigValues = InternationalSmallMinusBig.parseFile
+
+  // TODO: Must intersect the 3 month sets
 
   // Construct the above from the raw data below.
   private def makeMetricsMap : TreeMap[Month, FamaFrenchMetrics] = {
-    var result = TreeMap[Month, FamaFrenchMetrics]()
+
+	// Compute the intersection of the sets of months
+	val monthsCovered = internationalMetrics.keySet & riskFreeReturns.keySet & smallMinusBigValues.keySet
+
+	var result = TreeMap[Month, FamaFrenchMetrics]()
     
-    rawData foreach { datum =>
-      result += (datum.month -> datum.metrics)
-    }
+	monthsCovered foreach { month =>
+	   result += (month
+	  		      ->
+	              new FamaFrenchMetrics(
+	             	// Mkt-Rf:
+	                internationalMetrics(month).marketReturn - riskFreeReturns(month),
+	                // SmB:
+	                smallMinusBigValues(month),
+	                // HmL
+	                internationalMetrics(month).highMinusLow,
+	                // Rf
+	                riskFreeReturns(month)))
+	}
     result
   }
+
   private val metricsMap = makeMetricsMap 
 
   private def validate = {

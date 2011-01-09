@@ -10,12 +10,8 @@ object CmdUnitTests {
 	require(y.toSeq.contains(aug2009))
 	require(z.contains(aug2009))
 	
-    // FileLocater
-    println(FileLocater.locateProjectRoot)
-    require(FileLocater.locateProjectRoot.isDirectory)
-	  
     // FamaFrenchUsaMonthlyDatum
-    FamaFrenchDatumUsa.parseFile
+    FamaFrenchMetricsUsa.parseFile
     
     // FamaFrenchDigestUsaMonthly
     println(FamaFrenchDigestUsa.months)
