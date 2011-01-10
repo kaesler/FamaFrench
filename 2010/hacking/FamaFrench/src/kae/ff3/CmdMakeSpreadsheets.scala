@@ -2,12 +2,19 @@ package kae.ff3
 
 object CmdMakeSpreadsheets {
   def main(args : Array[String]) : Unit = {
-	  
-	MutualFundMonthlyReturnHistory.createFromFile("BRSIX").generateRegressionSpreadsheet
-	MutualFundMonthlyReturnHistory.createFromFile("DFFVX").generateRegressionSpreadsheet
-	MutualFundMonthlyReturnHistory.createFromFile("DFVEX").generateRegressionSpreadsheet
-	MutualFundMonthlyReturnHistory.createFromFile("VBR").generateRegressionSpreadsheet
-	MutualFundMonthlyReturnHistory.createFromFile("VOE").generateRegressionSpreadsheet
-	MutualFundMonthlyReturnHistory.createFromFile("VTI").generateRegressionSpreadsheet
+
+  MutualFundMonthlyReturnHistory.createFromFile("DFVQX", true).generateRegressionSpreadsheet	  
+//  MutualFundMonthlyReturnHistory.createFromFile("DFIVX", true).generateRegressionSpreadsheet	  
+//  MutualFundMonthlyReturnHistory.createFromFile("EFV", true).generateRegressionSpreadsheet	  
+//  MutualFundMonthlyReturnHistory.createFromFile("VEU", true).generateRegressionSpreadsheet	  
+//  MutualFundMonthlyReturnHistory.createFromFile("VINEX", true).generateRegressionSpreadsheet	  
+//	MutualFundMonthlyReturnHistory.createFromFile("DFISX", true).generateRegressionSpreadsheet
+
+//	MutualFundMonthlyReturnHistory.createFromFile("BRSIX", false).generateRegressionSpreadsheet
+//	MutualFundMonthlyReturnHistory.createFromFile("DFFVX", false).generateRegressionSpreadsheet
+//	MutualFundMonthlyReturnHistory.createFromFile("DFVEX", false).generateRegressionSpreadsheet
+//	MutualFundMonthlyReturnHistory.createFromFile("VBR", false).generateRegressionSpreadsheet
+//	MutualFundMonthlyReturnHistory.createFromFile("VOE", false).generateRegressionSpreadsheet
+//	MutualFundMonthlyReturnHistory.createFromFile("VTI", false).generateRegressionSpreadsheet
   }
 }

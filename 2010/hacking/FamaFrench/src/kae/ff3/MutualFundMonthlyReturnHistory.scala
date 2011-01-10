@@ -7,12 +7,14 @@ import scala.collection.immutable.TreeMap
 
 class MutualFundMonthlyReturnHistory(
   val ticker: String,
+  isInternational: Boolean,
   yahooData: Seq[YahooPriceDatum])
 { 
   // Record number of days and months in original data for sanity checking.
   val yahooDayCount = yahooData.size
   val yahooMonthCount = ((yahooData map { datum => datum.month } toSeq).distinct).size
-
+  val ffDigest = (if (isInternational) FamaFrenchDigestInternational else FamaFrenchDigestUsa)
+  
   // Store intermediate computations for sanity checking
   private var adjustedCloses = TreeMap[Month, Double]()
   
@@ -61,12 +63,12 @@ class MutualFundMonthlyReturnHistory(
 	
   private def computeRiskAdjustedTotalReturns : TreeMap[Month, Double] = {	      
 	var result = TreeMap[Month, Double]()
-	val ffMonths = FamaFrenchDigestUsa.months
+	val ffMonths = ffDigest.months
 	
 	totalReturns foreach { elt  =>
 	  val (month, totalReturn) = elt
 	  if (ffMonths.contains(month)) {
-	    result += (month -> (totalReturn - FamaFrenchDigestUsa.getMetrics(month).riskFree))
+	    result += (month -> (totalReturn - ffDigest.getMetrics(month).riskFree))
 	  }
 	}
 	
@@ -140,6 +142,6 @@ class MutualFundMonthlyReturnHistory(
 
 object MutualFundMonthlyReturnHistory
 {
-  def createFromFile(ticker: String) : MutualFundMonthlyReturnHistory  = {
-    new MutualFundMonthlyReturnHistory(ticker, YahooPriceDatum.parseFile(ticker))  }
+  def createFromFile(ticker: String, isInternational: Boolean) : MutualFundMonthlyReturnHistory  = {
+    new MutualFundMonthlyReturnHistory(ticker, isInternational, YahooPriceDatum.parseFile(ticker))  }
 }

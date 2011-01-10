@@ -12,7 +12,7 @@ object FileLocater
   
   def locateInternationalSmBStream : InputStream = {
     val file = new File(projectRoot,
-    		            "input/international_smb/msci_indices/International_SmB.csv")
+    		            "data/input/international_smb/msci_indices/International_SmB.csv")
     new FileInputStream(file)
   }
 
