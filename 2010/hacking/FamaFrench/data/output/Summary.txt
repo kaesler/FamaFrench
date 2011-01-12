@@ -1,0 +1,14 @@
+DFA
+===
+
+Assumed/reputed (SmallHi 2009-aug-5, Bogleheads)
+
+US Core 1: 1/0.1/0.1
+US Core 1: 1/0.2/0.2
+US Vector: 1/0.4/0.4
+
+Others
+======
+
+RobertT 2009-jan-3:
+  EAFE Small Cap (SCZ): 0.9 size, 0.1 value 

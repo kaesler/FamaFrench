@@ -40,22 +40,26 @@ object CmdFetchFromWeb {
 
   def main(args : Array[String]) : Unit = {
 	// Domestic stock
-    fetchFundPriceHistory("BRSIX")
-    fetchFundPriceHistory("DFFVX")
-    fetchFundPriceHistory("DFVEX")
-	fetchFundPriceHistory("VBR")
-    fetchFundPriceHistory("VOE")
-    fetchFundPriceHistory("VTI")
-    
-    // International stock
-	fetchFundPriceHistory("DFISX")
-	fetchFundPriceHistory("DFIVX")
-	fetchFundPriceHistory("DFVQX")
-	fetchFundPriceHistory("EFV")
-	fetchFundPriceHistory("VEU")
-    fetchFundPriceHistory("VINEX")
-	fetchFundPriceHistory("VSS")
-	fetchFundPriceHistory("VWO")
+//	fetchFundPriceHistory("VISVX")
+	fetchFundPriceHistory("VMVIX")
+//    fetchFundPriceHistory("BRSIX")
+//    fetchFundPriceHistory("DFFVX")
+//    fetchFundPriceHistory("DFVEX")
+//	fetchFundPriceHistory("VBR")
+//    fetchFundPriceHistory("VOE")
+//    fetchFundPriceHistory("VTI")
+//    
+//    // International stock
+	
+	fetchFundPriceHistory("SCZ")
+//	fetchFundPriceHistory("DFISX")
+//	fetchFundPriceHistory("DFIVX")
+//	fetchFundPriceHistory("DFVQX")
+//	fetchFundPriceHistory("EFV")
+//	fetchFundPriceHistory("VEU")
+//    fetchFundPriceHistory("VINEX")
+//	fetchFundPriceHistory("VSS")
+//	fetchFundPriceHistory("VWO")
     
   }
 }
