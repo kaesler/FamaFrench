@@ -1,3 +1,5 @@
+Key: (mkt,size,value)
+
 DFA
 ===
 
@@ -7,8 +9,75 @@ US Core 1: 1/0.1/0.1
 US Core 1: 1/0.2/0.2
 US Vector: 1/0.4/0.4
 
-Others
-======
 
-RobertT 2009-jan-3:
-  EAFE Small Cap (SCZ): 0.9 size, 0.1 value 
+BRSIX
+=====
+
+Benchmark is CRSP10
+
+My regression since 1999: 0.92,0.57,0.30
+My regression since 2005: 0.93.0.93,0.08
+
+RobertT says CRSP 10 has: 1.00,1.10,0.10
+(so use it since CRSP10 is BRSIX's benchmark)
+
+Decide: 1,1,0.1 ?
+
+VOE/VMVIX (Vanguard Mid-Cap Value)
+==================================
+Index is MSCI US Mid Cap Value Index.
+
+My regression since late 2006: 1.0,0.31,0.27
+My old regression using MSCI Mid Cap index data back to 1995: 1.00,0.11,0.76
+RobertT on 2008-nov-9:         1.0,0.10,0.65
+
+Decide: use RobertT's value
+VBR/VISVX
+=========
+Index is MSCI US Small Cap Value Index.
+
+My regression since 1998: 1.0, 0.55, 0.65
+My older regression since 2002: 1.00, 0.52, 0.40
+
+DFAvsVG doc (1985->2005): 0.82,0.6,0.4
+
+Decide : 1, .6, .4
+
+SCZ (EAFE Small Cap) 
+===================
+RobertT 2009-jan-3: 0.9 size, 0.1 value 
+Based on DFA research.
+
+DFA vs VG doc: 1.11,0.91,-0.02
+
+VSS (Vanguard FTSE All Wld Ex USSml Cap)
+========================================
+
+Assume as for SCZ?
+
+EFV (EAFE Value)
+================
+
+My regression, using MSCI for SMB, 5 years: 0.95,0.14,0.42
+RobetT (2008-nov-9): 1.0,-0.1,0.35
+
+DFA.vs.VG doc: 0.99,-0.05,0.38
+
+Decide: use DFA's values
+
+DFA Int'l value (DFAvsVG doc):   1.0,0.06,0.89
+===============
+
+DFA Int'l small (DFAvsVG doc):   1.0,1.02,-0.11
+===============
+
+DFA Intl Vector equity
+======================
+
+Slightly less valuey than intl value
+Quite a bit less small than Int'l small
+
+So assume: 1.0, 0.4, 0.4
+
+
+
